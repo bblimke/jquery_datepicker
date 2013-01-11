@@ -9,13 +9,7 @@ module JqueryDatepicker
     def datepicker(object_name, method, options = {}, timepicker = false)
       input_tag = JqueryDatepicker::InstanceTag.new(object_name, method, self, options.delete(:object))
       dp_options, tf_options =  input_tag.split_options(options)
-      if dp_options[:dateFormat]
-        val = input_tag.value_before_type_cast(input_tag.object)
-        if !val.blank?
-          tf_options[:value] = input_tag.format_date(val,
-            dp_options[:dateFormat], timepicker)
-        end
-      end
+
       html = input_tag.to_input_field_tag("text", tf_options)
       method = timepicker ? "datetimepicker" : "datepicker"
       html += javascript_tag("jQuery(document).ready(function(){jQuery('##{input_tag.get_name_and_id["id"]}').#{method}(#{dp_options.to_json})});")
